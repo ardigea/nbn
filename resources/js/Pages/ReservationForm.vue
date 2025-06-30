@@ -114,6 +114,14 @@
                 <span v-else>Processing...</span>
             </button>
         </div>
+
+        <!-- Reservation Confirm Popup -->
+        <ReservationConfirmPopup 
+            :show="showConfirmPopup"
+            :reservation-data="currentReservation || {}"
+            @close="closeConfirmPopup"
+            @payment="handlePayment"
+        />
     </MobileLayout>
 </template>
 
@@ -123,6 +131,7 @@ import { router } from '@inertiajs/vue3'
 import MobileLayout from '../Layouts/MobileLayout.vue'
 import LoadingSpinner from '../Components/LoadingSpinner.vue'
 import SuccessMessage from '../Components/SuccessMessage.vue'
+import ReservationConfirmPopup from '../Components/ReservationConfirmPopup.vue'
 
 // Reactive data
 const selectedMonth = ref('September')
@@ -137,6 +146,8 @@ const selectedDate = ref(null)
 const isLoading = ref(false)
 const showSuccess = ref(false)
 const successMessage = ref('')
+const showConfirmPopup = ref(false)
+const currentReservation = ref(null)
 
 // Date options
 const dateOptions = ref([
@@ -190,15 +201,19 @@ const submitReservation = async () => {
         email: email.value
     }
 
+    // Simulate API call
+    setTimeout(() => {
+        currentReservation.value = reservation
+        showConfirmPopup.value = true
+        isLoading.value = false
+    }, 1500)
+
+    // If you want to keep the original API call, uncomment this:
+    /*
     router.post('/reservation', reservation, {
         onSuccess: () => {
-            successMessage.value = `Your table for ${peopleCount.value} people on ${selectedMonth.value} ${selectedDate.value} at ${selectedTime.value} has been reserved successfully!`
-            showSuccess.value = true
-
-            // Reset form after success
-            setTimeout(() => {
-                resetForm()
-            }, 3000)
+            currentReservation.value = reservation
+            showConfirmPopup.value = true
         },
         onError: (errors) => {
             console.error('Reservation failed:', errors)
@@ -208,6 +223,7 @@ const submitReservation = async () => {
             isLoading.value = false
         }
     })
+    */
 }
 
 const resetForm = () => {
@@ -216,6 +232,23 @@ const resetForm = () => {
     notes.value = ''
     peopleCount.value = 2
     showSuccess.value = false
+}
+
+const closeConfirmPopup = () => {
+    showConfirmPopup.value = false
+    // Reset form after closing popup
+    setTimeout(() => {
+        resetForm()
+    }, 300)
+}
+
+const handlePayment = () => {
+    showConfirmPopup.value = false
+    // Here you can redirect to payment page or handle payment logic
+    alert('Redirecting to payment...')
+    setTimeout(() => {
+        resetForm()
+    }, 300)
 }
 
 // Initialize selected date
@@ -253,5 +286,10 @@ selectedDate.value = 25
 
 .reserve-button:active:not(:disabled) {
     transform: translateY(0);
+}
+
+/* Ensure popup appears above all content */
+:deep(.fixed) {
+    z-index: 9999;
 }
 </style>
