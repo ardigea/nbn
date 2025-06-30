@@ -1,14 +1,13 @@
 <script setup>
-// import Layout from './Layout'
 import { Head } from '@inertiajs/vue3'
+import ReservationForm from './ReservationForm.vue'
 
 defineProps({ event: Object })
 </script>
 
 <template>
-  <Layout>
-    <Head title="Welcome" />
-    <h1>Welcome</h1>
-    <p>Hello {{ event }}, welcome to your first Inertia app!</p>
-  </Layout>
+  <div>
+    <Head title="Restaurant Reservation" />
+    <ReservationForm />
+  </div>
 </template>

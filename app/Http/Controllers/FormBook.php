@@ -30,7 +30,27 @@ class FormBook extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the reservation data
+        $validated = $request->validate([
+            'restaurant' => 'required|string',
+            'date' => 'required|integer',
+            'month' => 'required|string',
+            'year' => 'required|string',
+            'time' => 'required|string',
+            'people' => 'required|integer|min:1|max:10',
+            'notes' => 'nullable|string',
+            'fullName' => 'required|string|min:2',
+            'phone' => 'required|string'
+        ]);
+
+        // Here you would typically save to database
+        // For now, we'll just return a success response
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Reservation created successfully',
+            'data' => $validated
+        ]);
     }
 
     /**
