@@ -1,5 +1,5 @@
 <template>
-    <MobileLayout title="Reservation">
+    <AppLayout title="Reservation" :show-back-button="true" :pending-orders-count="2">
         <!-- Restaurant Header Image -->
         <div class="restaurant-header relative">
             <div class="restaurant-image h-48 bg-gradient-to-r from-amber-900 to-amber-700 relative overflow-hidden">
@@ -20,6 +20,8 @@
                 @close="showSuccess = false" class="mb-6" />
 
             <h3 class="text-xl font-semibold text-gray-800 mb-6">Reservation</h3>
+
+            <!-- ...existing code... -->
 
             <!-- Deposit Notice -->
             <div class="deposit-notice bg-white rounded-lg p-4 mb-6 flex items-center shadow-sm">
@@ -122,7 +124,7 @@
             @close="closeConfirmPopup"
             @payment="handlePayment"
         />
-    </MobileLayout>
+    </AppLayout>
 </template>
 
 <script setup>
